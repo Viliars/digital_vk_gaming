@@ -1,6 +1,8 @@
 from app import app, db
 from app.models import User
 from flask import request, jsonify
+from app.utils import get_random_data
+
 
 @app.route('/')
 def root():
@@ -40,31 +42,6 @@ def get_user(id):
         for award in user.awards:
             data["awards"].append({"title": award.title, "imgSrc": award.imgSrc})
     else:
-        data = {
-            "id": id,
-            "nickname": "Zortan3301",
-            "description": "Dead by Daylight",
-            "links": {
-                "steam": "zortan3301",
-                "discord": "zortan3301",
-                "twitch": "zortan3301"
-            },
-            "skills": [
-                {
-                    "title": "coordinator",
-                    "count": 3,
-                },
-                {
-                    "title": "leader",
-                    "count": 2,
-                }
-            ],
-            "awards": [
-                {
-                    "title": "Ez Game",
-                    "imgSrc": "https://www.ezride.be/wp-content/uploads/2017/11/cropped-Logo_EZRide_yellow_circle.png"
-                }
-            ]
-        }
+        data = get_random_data(id)
 
     return jsonify(data)
