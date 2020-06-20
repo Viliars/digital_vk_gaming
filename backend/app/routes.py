@@ -43,10 +43,10 @@ def get_user(id):
         data = {
             "id": id,
             "nickname": "Zortan3301",
-            "description": "Dead by daylight",
+            "description": "Dead by Daylight",
             "links": {
                 "steam": "zortan3301",
-                "discord": None,
+                "discord": "zortan3301",
                 "twitch": "zortan3301"
             },
             "skills": [
