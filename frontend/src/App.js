@@ -11,11 +11,12 @@ import Icon28Profile from '@vkontakte/icons/dist/28/profile';
 import Icon28Users3Outline from '@vkontakte/icons/dist/28/users_3_outline';
 import Icon28GameOutline from '@vkontakte/icons/dist/28/game_outline';
 
-import HomePanelBase from './js/panels/profile/base';
-import HomePanelGroups from './js/panels/profile/groups';
+import ProfilePanelBase from './js/panels/profile/base';
 
 import MorePanelBase from './js/panels/teammates/base';
 import MorePanelExample from './js/panels/teammates/example';
+
+import GamesPanelBase from './js/panels/games/base';
 
 import HomeBotsListModal from './js/components/modals/HomeBotsListModal';
 import HomeBotInfoModal from './js/components/modals/HomeBotInfoModal';
@@ -84,38 +85,38 @@ class App extends React.Component {
                 <Epic activeStory={activeStory} tabbar={
                     <Tabbar>
                         <TabbarItem
-                            onClick={() => setStory('home', 'base')}
-                            selected={activeStory === 'home'}>
+                            onClick={() => setStory('profile', 'base')}
+                            selected={activeStory === 'profile'}>
                                 <Icon28Profile/>
                         </TabbarItem>
                         <TabbarItem
-                            onClick={() => setStory('more', 'callmodal')}
-                            selected={activeStory === 'more'}>
+                            onClick={() => setStory('teammates', 'callmodal')}
+                            selected={activeStory === 'teammates'}>
                                 <Icon28Users3Outline/>
                         </TabbarItem>
                         <TabbarItem
-                        >
+                            onClick={() => setStory('games', 'base')}
+                            selected={activeStory === 'games'}>
                                 <Icon28GameOutline/>
                         </TabbarItem>
                     </Tabbar>
                 }>
-                    <Root id="home" activeView={activeView} popout={popout}>
+                    <Root id="profile" activeView={activeView} popout={popout}>
                         <View
-                            id="home"
+                            id="profile"
                             modal={homeModals}
-                            activePanel={getActivePanel("home")}
+                            activePanel={getActivePanel("profile")}
                             history={history}
                             onSwipeBack={() => goBack()}
                         >
-                            <HomePanelBase id="base" withoutEpic={false}/>
-                            <HomePanelGroups id="groups"/>
+                            <ProfilePanelBase id="base" withoutEpic={false}/>
                         </View>
                     </Root>
-                    <Root id="more" activeView={activeView} popout={popout}>
+                    <Root id="teammates" activeView={activeView} popout={popout}>
                         <View
-                            id="more"
+                            id="teammates"
                             modal={homeModals}
-                            activePanel={getActivePanel("more")}
+                            activePanel={getActivePanel("teammates")}
                             history={history}
                             onSwipeBack={() => goBack()}
                         >
@@ -129,6 +130,17 @@ class App extends React.Component {
                             onSwipeBack={() => goBack()}
                         >
                             <MorePanelExample id="filters"/>
+                        </View>
+                    </Root>
+                    <Root id="games" activeView={activeView} popout={popout}>
+                        <View
+                            id="games"
+                            modal={homeModals}
+                            activePanel={getActivePanel("games")}
+                            history={history}
+                            onSwipeBack={() => goBack()}
+                        >
+                            <GamesPanelBase id="base" withoutEpic={false}/>
                         </View>
                     </Root>
                 </Epic>
