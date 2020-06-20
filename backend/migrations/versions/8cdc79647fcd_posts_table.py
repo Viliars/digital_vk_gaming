@@ -1,8 +1,8 @@
-"""users table
+"""posts table
 
-Revision ID: ef0994e83be7
+Revision ID: 8cdc79647fcd
 Revises: 
-Create Date: 2020-06-20 16:08:21.746641
+Create Date: 2020-06-20 17:30:41.879341
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'ef0994e83be7'
+revision = '8cdc79647fcd'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -36,10 +36,11 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('game',
-    sa.Column('game_id', sa.Integer(), nullable=False),
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('game_id', sa.Integer(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
-    sa.PrimaryKeyConstraint('game_id')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('skill',
     sa.Column('id', sa.Integer(), nullable=False),

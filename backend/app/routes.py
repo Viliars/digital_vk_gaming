@@ -13,10 +13,26 @@ def add_favorites():
     user_id = request.args.get('user_id', 1, type=int)
     game_id = request.args.get('game_id', 1, type=int)
     user = User.query.filter_by(id=user_id).first()
+    for game in user.games:
+        if game.game_id == game_id:
+            return "OK"
+
     game = Game(game_id=game_id, user=user)
     db.session.add(game)
     db.session.commit()
     return "OK"
+
+
+@app.route('/get_users')
+def get_users():
+    answer = []
+    game_id = request.args.get('game_id', 1, type=int)
+    for user in User.query.all():
+        for game in user.games:
+            if game.game_id == game_id:
+                answer.append({"user_id": user.id, "nickname": user.nickname})
+
+    return jsonify(answer)
 
   
 # @app.route('/add_user', methods=['POST'])
@@ -33,6 +49,7 @@ def add_favorites():
 @app.route('/get_user/<id>', methods=['GET'])
 def get_user(id):
     id = int(id)
+
     user = User.query.filter_by(id=id).first()
 
     if user is None:
@@ -60,7 +77,5 @@ def get_user(id):
 
     for game in user.games:
         data["games"].append(game.game_id)
-
-    data = get_random_data(id)
 
     return jsonify(data)
