@@ -13,6 +13,10 @@ def add_favorites():
     user_id = request.args.get('user_id', 1, type=int)
     game_id = request.args.get('game_id', 1, type=int)
     user = User.query.filter_by(id=user_id).first()
+    for game in user.games:
+        if game.game_id == game_id:
+            return "OK"
+
     game = Game(game_id=game_id, user=user)
     db.session.add(game)
     db.session.commit()
