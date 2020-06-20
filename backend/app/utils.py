@@ -10,7 +10,7 @@ def add_random_user(id):
     s1 = Skill(title="Координатор", count=3, user=user)
     s2 = Skill(title="Лидер", count=2, user=user)
 
-    g1 = Game(game_id=randint(1001, 1008), user=user)
+    g1 = Game(game_id=randint(0, 9), user=user)
 
     a1 = Award(title="Ez Game", imgSrc="https://www.ezride.be/wp-content/uploads/2017/11/cropped-Logo_EZRide_yellow_circle.png", user=user)
 
