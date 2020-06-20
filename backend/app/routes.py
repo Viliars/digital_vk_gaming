@@ -35,14 +35,14 @@ def get_users():
     return jsonify(answer)
 
   
-# @app.route('/add_user', methods=['POST'])
-# def add_user():
-#     id = request.args.get('id', 1, type=int)
-#     username = request.args.get('username', 1, type=str)
-#     #user = User(id=id, username=username)
-#     # db.session.add(user)
-#     # db.session.commit()
-#     return "OK"
+@app.route('/add_user', methods=['POST'])
+def add_user():
+    id = request.args.get('id', 1, type=int)
+    username = request.args.get('username', 1, type=str)
+    #user = User(id=id, username=username)
+    # db.session.add(user)
+    # db.session.commit()
+    return "OK"
 
 
 

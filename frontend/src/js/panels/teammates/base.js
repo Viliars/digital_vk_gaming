@@ -3,18 +3,10 @@ import {connect} from 'react-redux';
 
 import {setPage} from "../../store/router/actions";
 import {setActiveTab, setScrollPositionByID} from "../../store/vk/actions";
-import {restoreScrollPosition} from "../../services/_functions";
 
 import {
-    Div,
     Panel,
-    Group,
-    CellButton,
-    PanelHeader,
-    FixedLayout,
-    HorizontalScroll,
-    TabsItem,
-    Tabs
+    PanelHeader
 } from "@vkontakte/vkui";
 
 class TeammatesBase extends React.Component {
@@ -33,17 +25,6 @@ class TeammatesBase extends React.Component {
         });
     }
 
-    componentWillUnmount() {
-        const {setScrollPositionByID, setActiveTab} = this.props;
-
-        setActiveTab("EXAMPLE", this.state.activeTab);
-        setScrollPositionByID("EXAMPLE_TABS_LIST");
-    }
-
-    componentDidMount() {
-        restoreScrollPosition();
-    }
-
     render() {
         const {id, setPage} = this.props;
         const boxStyle = {marginTop: 56};
@@ -51,43 +32,6 @@ class TeammatesBase extends React.Component {
         return (
             <Panel id={id}>
                 <PanelHeader noShadow={true}>Мои тиммейты</PanelHeader>
-                <FixedLayout vertical="top">
-                    <Tabs theme="header" mode="default">
-                        <HorizontalScroll id="EXAMPLE_TABS_LIST">
-                            <TabsItem
-                                onClick={() => this.setTab('modal')}
-                                selected={this.state.activeTab === 'modal'}
-                            >
-                                Модальное окно
-                            </TabsItem>
-                            <TabsItem
-                                onClick={() => this.setTab('test')}
-                                selected={this.state.activeTab === 'test'}
-                            >
-                                Для теста
-                            </TabsItem>
-                            <TabsItem
-                                onClick={() => this.setTab('test2')}
-                                selected={this.state.activeTab === 'test2'}
-                            >
-                                Для теста 2
-                            </TabsItem>
-                            <TabsItem
-                                onClick={() => this.setTab('test3')}
-                                selected={this.state.activeTab === 'test3'}
-                            >
-                                Для теста 3
-                            </TabsItem>
-                        </HorizontalScroll>
-                    </Tabs>
-                </FixedLayout>
-                <Group style={boxStyle}>
-                    {this.state.activeTab === 'modal' && <CellButton onClick={() => setPage('modal', 'filters')}>
-                        Открыть модальное окно
-                    </CellButton>}
-
-                    {this.state.activeTab !== 'modal' && <Div>{this.state.activeTab}</Div>}
-                </Group>
             </Panel>
         );
     }

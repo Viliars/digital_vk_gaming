@@ -12,16 +12,20 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 
 import {setStory} from "./js/store/router/actions";
 
+import bridge from "@vkontakte/vk-bridge";
 import '@vkontakte/vkui/dist/vkui.css';
 import './css/main.css';
 
 import App from './App';
 
+// Init VK  Mini App
+bridge.send("VKWebAppInit");
+
 export const store = createStore(rootReducer, composeWithDevTools(
     applyMiddleware(thunk),
 ));
 
-store.dispatch(setStory('home', 'base'));
+store.dispatch(setStory('profile', 'base'));
 
 ReactDOM.render(
     <Provider store={store}>
