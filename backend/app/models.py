@@ -17,7 +17,8 @@ class User(db.Model):
 
 
 class Game(db.Model):
-    game_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    game_id = db.Column(db.Integer)
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
 

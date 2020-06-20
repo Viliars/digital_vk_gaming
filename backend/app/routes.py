@@ -18,6 +18,18 @@ def add_favorites():
     db.session.commit()
     return "OK"
 
+
+@app.route('/get_users')
+def get_users():
+    answer = []
+    game_id = request.args.get('game_id', 1, type=int)
+    for user in User.query.all():
+        for game in user.games:
+            if game.game_id == game_id:
+                answer.append({"user_id": user.id, "nickname": user.nickname})
+
+    return jsonify(answer)
+
   
 # @app.route('/add_user', methods=['POST'])
 # def add_user():
