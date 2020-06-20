@@ -1,5 +1,6 @@
 from app import db
 
+
 class User(db.Model):
     id = db.Column(db.BigInteger, primary_key=True)
     nickname = db.Column(db.String(32))

@@ -33,6 +33,7 @@ def add_favorites():
 @app.route('/get_user/<id>', methods=['GET'])
 def get_user(id):
     id = int(id)
+
     user = User.query.filter_by(id=id).first()
 
     if user is None:
