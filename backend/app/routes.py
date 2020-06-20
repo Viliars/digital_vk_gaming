@@ -61,6 +61,4 @@ def get_user(id):
     for game in user.games:
         data["games"].append(game.game_id)
 
-    data = get_random_data(id)
-
     return jsonify(data)
