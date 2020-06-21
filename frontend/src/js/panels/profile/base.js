@@ -9,29 +9,39 @@ import GamesList from "../games/base";
 
 const ProfileBase = ({id}) => {
 
+    /*----Изменить на false для запуска внутри VK------*/
+
+    ProfileBase.IS_MOCK = true
+
+    /*-------------------------------------------------*/
+
+    ProfileBase.URL = "https://agile-help.ru/"
+
     const [vkUser, setVkUser] = useState(null);
     const [serverUser, setServerUser] = useState(null);
-    const [activePanel, setActivePanel] = useState('profile');
-
-    const skills_items = []
 
     const startParams = new URLSearchParams(window.location.search)
     const userId = startParams.get("vk_user_id")
     ProfileBase.userId = userId
 
     useEffect(() => {
-        async function fetchVkData() {
-            const user = await bridge.send('VKWebAppGetUserInfo');
-            setVkUser(user);
+        if (ProfileBase.IS_MOCK) {
+            setVkUser(mock_vkUser)
+            setServerUser(mock_serverUser)
+        } else {
+            async function fetchVkData() {
+                const user = await bridge.send('VKWebAppGetUserInfo');
+                setVkUser(user);
+            }
+            fetchVkData()
+
+            const userId = ProfileBase.userId
+
+            axios.get(ProfileBase.URL+"get_user/"+userId)
+                .then((response) => {
+                    setServerUser(response.data)
+                })
         }
-        fetchVkData()
-
-        const userId = ProfileBase.userId
-
-        axios.get("https://agile-help.ru/get_user/"+userId)
-            .then((response) => {
-                setServerUser(response.data)
-            })
 
     }, []);
 
@@ -103,6 +113,37 @@ ProfileBase.propTypes = {
 
 export default ProfileBase;
 
+const itemStyle = {
+    flexShrink: 0,
+    width: 80,
+    height: 94,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    fontSize: 12
+};
+
+function getGameImage(id) {
+    const gamelib = GamesList.games
+    console.log(id)
+    for (let i = 0; i < gamelib.length; i++) {
+        if (gamelib[i].id === id)
+            return gamelib[i].img
+    }
+    return null
+}
+
+const logo_links = {
+    "steam" : "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/512px-Steam_icon_logo.svg.png",
+    "discord" : "https://i2.wp.com/nopcproblem.ru/wp-content/uploads/2019/05/discord-logo.png?ssl=1",
+    "twitch" : "https://img.streamdj.ru/f6bb31cfea23debdc091e4595fdd9018.png",
+    "winner1" : "https://www.freepngimg.com/thumb/winner/3-2-winner-png-image.png",
+    "winner2" : "https://i7.pngflow.com/pngimage/165/784/png-brazil-playerunknown-s-battlegrounds-electronic-sports-game-twitch-winner-winner-chicken-clipart.png",
+    "winner3" : "https://w7.pngwing.com/pngs/884/120/png-transparent-counter-strike-global-offensive-video-game-call-of-duty-black-ops-iii-mascot-electronic-sports-others-miscellaneous-team-logo.png",
+    "winner4" : "https://upload.wikimedia.org/wikipedia/ru/b/b2/%D0%A4%D0%9A_%D0%92%D0%B8%D0%BD%D0%B5%D1%80-%D0%9D%D0%BE%D0%B9%D1%88%D1%82%D0%B0%D0%B4%D1%82.png",
+    "winner5" : "https://img.favpng.com/3/21/16/medal-winner-logo-badge-png-favpng-AvSYD6jfU7nr8kYqZS46DfiqX.jpg"
+}
+
 const mock_vkUser = {
     "id": 2314852,
     "first_name": "Макс",
@@ -128,8 +169,8 @@ const mock_serverUser = {
     "description" : "ММР 5000, 6к часов",
     "links" : {
         "steam" : "zortan3301",
-        "discord" : "zortan3301",
-        "twitch" : "zortan3301"
+        "discord" : "max_aminov",
+        "twitch" : "twitcher3000"
     },
     "skills": [
         {
@@ -139,6 +180,14 @@ const mock_serverUser = {
         {
             "title" : "Стелс",
             "count" : 10
+        },
+        {
+            "title" : "Дружелюбность",
+            "count" : 15
+        },
+        {
+            "title" : "Реакция",
+            "count" : 4
         }
     ],
     "awards": [
@@ -147,88 +196,5 @@ const mock_serverUser = {
             "imgSrc" : "https://www.freepngimg.com/thumb/winner/3-2-winner-png-image.png"
         }
     ],
-    "games": [0, 7]
+    "games": [0, 7, 2, 4, 5, 6]
 }
-
-const logo_links = {
-    "steam" : "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/512px-Steam_icon_logo.svg.png",
-    "discord" : "https://i2.wp.com/nopcproblem.ru/wp-content/uploads/2019/05/discord-logo.png?ssl=1",
-    "twitch" : "https://img.streamdj.ru/f6bb31cfea23debdc091e4595fdd9018.png",
-    "winner1" : "https://www.freepngimg.com/thumb/winner/3-2-winner-png-image.png",
-    "winner2" : "https://i7.pngflow.com/pngimage/165/784/png-brazil-playerunknown-s-battlegrounds-electronic-sports-game-twitch-winner-winner-chicken-clipart.png",
-    "winner3" : "https://w7.pngwing.com/pngs/884/120/png-transparent-counter-strike-global-offensive-video-game-call-of-duty-black-ops-iii-mascot-electronic-sports-others-miscellaneous-team-logo.png",
-    "winner4" : "https://upload.wikimedia.org/wikipedia/ru/b/b2/%D0%A4%D0%9A_%D0%92%D0%B8%D0%BD%D0%B5%D1%80-%D0%9D%D0%BE%D0%B9%D1%88%D1%82%D0%B0%D0%B4%D1%82.png",
-    "winner5" : "https://img.favpng.com/3/21/16/medal-winner-logo-badge-png-favpng-AvSYD6jfU7nr8kYqZS46DfiqX.jpg"
-}
-
-const itemStyle = {
-    flexShrink: 0,
-    width: 80,
-    height: 94,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    fontSize: 12
-};
-
-function getGameImage(id) {
-    console.log(id)
-    for (let i = 0; i < gamelib.length; i++) {
-        if (gamelib[i].id === id)
-            return gamelib[i].img
-    }
-    return null
-}
-
-const gamelib = [
-    {
-        id: 0,
-        title: 'CS:GO',
-        img: 'https://www.meme-arsenal.com/memes/d81f1fc73c38e2cfacbd493b5d58509c.jpg',
-    },
-    {
-        id: 1,
-        title: 'Dota 2',
-        img: 'https://cdnb.artstation.com/p/assets/images/images/003/638/701/large/yusif-alomeri-dota-emoticons-icon-circle.jpg',
-    },
-    {
-        id: 2,
-        title: 'Overwatch',
-        img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Overwatch_circle_logo.svg/1200px-Overwatch_circle_logo.svg.png',
-    },
-    {
-        id: 3,
-        title: 'PUBG',
-        img: 'https://prodigits.co.uk/thumbs/wallpapers/p2/games/29/4543a93012322639.jpg',
-    },
-    {
-        id: 4,
-        title: 'Valorant',
-        img: 'https://files.cults3d.com/uploaders/15024335/illustration-file/a86d53e4-2bd9-4a8f-9550-986686c3131a/gi0mAjIh_400x400_large.png',
-    },
-    {
-        id: 5,
-        title: 'Apex Legends',
-        img: 'https://i.pinimg.com/564x/46/0e/78/460e78cb4c61f55da3802ca5d1d68d15.jpg',
-    },
-    {
-        id: 6,
-        title: 'Dead By Daylight',
-        img: 'https://i.pinimg.com/originals/c2/26/70/c226703be9c534fd960290e3d61dd70e.png',
-    },
-    {
-        id: 7,
-        title: 'World Of Tanks',
-        img: 'https://i.pinimg.com/originals/2b/08/77/2b0877b745d40b72590ddc12ee95065c.jpg',
-    },
-    {
-        id: 8,
-        title: 'League of Legends',
-        img: 'https://i.pinimg.com/originals/a2/ea/c1/a2eac1e1644fad2ab6253e7562ebba00.png',
-    },
-    {
-        id: 9,
-        title: 'Fortnite',
-        img: 'https://wallpapercave.com/wp/wp3726869.jpg',
-    }
-]
