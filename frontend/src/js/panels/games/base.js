@@ -29,6 +29,7 @@ class GamesList extends React.Component {
     }
 
     render() {
+
         return (
             <View activePanel={this.state.activePanel}>
                 <Panel id="list">
@@ -39,8 +40,13 @@ class GamesList extends React.Component {
                         gamelib.map(game => (
                             <SimpleCell key={game.id} onClick={() => {
                                 this.setState({ activePanel: 'gamepanel', game: game});
-                                axios.get("https://agile-help.ru/get_users?game_id="+game.id)
-                                    .then(response => this.setState({users: response.data}))}} expandable
+                                if (ProfileBase.IS_MOCK) {
+                                    this.setState({users: mock_Players})
+                                } else {
+                                    axios.get(ProfileBase.URL+"get_users?game_id="+game.id)
+                                        .then(response => this.setState({users: response.data}))
+                                }
+                                }} expandable
                                         before={<Avatar size={48} src={game.img}/>}>{game.title}</SimpleCell>
                         ))
                     }
@@ -68,7 +74,7 @@ class GamesList extends React.Component {
 }
 
 function addToFavorite(user_id, game_id) {
-    axios.get("https://agile-help.ru/add_favorites?user_id="+user_id+"&game_id="+game_id)
+    axios.get(ProfileBase.URL+"add_favorites?user_id="+user_id+"&game_id="+game_id)
         .then((response) => {})
 }
 
