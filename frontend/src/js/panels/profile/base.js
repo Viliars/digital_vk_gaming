@@ -13,9 +13,9 @@ const ProfileBase = ({id}) => {
 
     ProfileBase.IS_MOCK = true
 
-    /*-------------------------------------------------*/
-
     ProfileBase.URL = "https://agile-help.ru/"
+
+    /*-------------------------------------------------*/
 
     const [vkUser, setVkUser] = useState(null);
     const [serverUser, setServerUser] = useState(null);
